@@ -36,7 +36,7 @@ resource "aws_route_table" "my_rt" {
   vpc_id = aws_vpc.my_vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.allow_all_ips
     gateway_id = aws_internet_gateway.my_igw.id
   }
 
@@ -62,28 +62,28 @@ resource "aws_security_group" "my_sg_ec2" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allow_all_ips]
   }
   ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allow_all_ips]
   }
   ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allow_all_ips]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allow_all_ips]
   }
 
   tags = {

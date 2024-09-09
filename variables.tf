@@ -63,3 +63,9 @@ variable "sg_name_tag" {
   type = string
   default = "MyDemoSGforEC2"
 }
+
+variable "allow_all_ips" {
+  description = "IP range that allows access from all IPs"
+  type = string
+  default = "0.0.0.0/0"
+}
