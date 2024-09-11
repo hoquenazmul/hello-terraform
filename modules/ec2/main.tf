@@ -89,7 +89,7 @@ resource "aws_security_group" "my_sg_ec2" {
 
 # EC2 Instance
 resource "aws_instance" "web_server" {
-  ami           = var.instance_ami
+  ami           = var.ami
   instance_type = var.instance_type
 
   subnet_id                   = aws_subnet.my_subnet.id
