@@ -53,27 +53,37 @@ resource "aws_security_group" "my_sg_ec2" {
   description = "Allow Web inbound traffic"
   vpc_id      = aws_vpc.my_vpc.id
 
-  ingress {
-    description = "HTTPS"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [var.allow_all_ips]
+  dynamic "ingress" {
+    for_each = var.ingress_rules
+    content {
+      from_port = ingress.value.from_port
+      to_port = ingress.value.to_port
+      protocol = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
   }
-  ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [var.allow_all_ips]
-  }
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.allow_all_ips]
-  }
+
+  # ingress {
+  #   description = "HTTPS"
+  #   from_port   = 443
+  #   to_port     = 443
+  #   protocol    = "tcp"
+  #   cidr_blocks = [var.allow_all_ips]
+  # }
+  # ingress {
+  #   description = "HTTP"
+  #   from_port   = 80
+  #   to_port     = 80
+  #   protocol    = "tcp"
+  #   cidr_blocks = [var.allow_all_ips]
+  # }
+  # ingress {
+  #   description = "SSH"
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = [var.allow_all_ips]
+  # }
 
   egress {
     from_port   = 0
